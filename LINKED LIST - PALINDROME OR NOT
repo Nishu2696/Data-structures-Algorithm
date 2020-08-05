@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+
+struct Node{
+    char data;
+    Node *next;
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+
+Node *insertAtEnd(Node *head, int data){
+    if(head == NULL){
+        return new Node(data);
+    }
+    Node *curr = head;
+    while(curr->next != NULL){
+        curr = curr->next;
+    }
+    curr->next = new Node(data);
+    return head;
+}
+
+bool palindrome(Node *head, int size){
+    if((head == NULL) || (head->next == NULL)){
+        return true;
+    }
+    char arr1[size-1], arr2[size-1];
+    int i=0, j=0, flag =0;
+    Node *curr = head;
+    while(curr != NULL){
+        arr1[i]=curr->data;
+        curr = curr->next;
+        i++;
+    }
+    Node *prev = NULL;
+    Node *curr1 = head, *next = head;
+    while(curr1 != NULL){
+        next = curr1->next;
+        curr1->next = prev;
+        prev = curr1;
+        curr1 = next;
+    }
+    head = prev;
+    while(head != NULL){
+        arr2[j] = head -> data; 
+        head = head->next;
+        j++;
+    }
+    for(int i=0; i<size; i++){
+        // cout<<arr1[i]<<" "<<arr2[i]<<endl;
+        if(arr1[i] == arr2[i]){
+            continue;
+        }
+        else{
+            flag =1;
+            break;
+        }
+    }
+    if(flag == 0){
+        cout<<"yes";
+        // return true;
+    }
+    else{
+        cout<<"no";
+        // return false;
+    }
+}
+
+
+int main() {
+    int size;
+    cin>>size;
+    char num1[size-1];
+    Node *head1= NULL;
+    for(int i=0; i<size; i++){
+        cin>>num1[i];
+        // cout<<num1[i]<<endl;
+        head1= insertAtEnd(head1, num1[i]);
+    }
+    palindrome(head1, size);
+    return 0;
+}
