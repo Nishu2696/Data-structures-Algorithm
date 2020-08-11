@@ -1,0 +1,48 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+bool matching(char a, char b);
+
+bool areParanthesisBalanced(string expr){
+    stack < char > s;
+    for(int i=0; i < expr.length(); i++) {
+        if (expr[i]=='('||expr[i]=='['||expr[i]=='{') {
+            s.push(expr[i]);
+            continue;
+        }
+        else{
+            if(s.empty() == true){
+                return false;
+            }
+            else if(matching(expr[i], s.top()) == false){
+                return false;
+            }
+            else{
+                s.pop();
+            }
+        }
+    }
+    return (s.empty() == true);
+}
+
+bool matching(char a, char b){
+    return (
+        (a == ')') && (b == '(') || (a == ']') && (b == '[') || (a == '}') && (b == '{'));
+}
+
+int main() {
+    bool result;
+    char userStringInput[100] = "";
+    cin >>  userStringInput;
+    // cout << "TheString Input is: " << userStringInput << endl;
+    result = areParanthesisBalanced(userStringInput);
+    // cout<< "line-40: " <<result;
+    if(result == 1){
+        cout<<"yes";
+    }
+    else{
+        cout<<"no";
+    }
+    return 0;
+}
